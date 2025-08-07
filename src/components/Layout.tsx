@@ -2,9 +2,8 @@ import { ReactNode } from "react";
 import { AppSidebar } from "./AppSidebar";
 import { SidebarTrigger, SidebarProvider } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { Bell, MessageCircle, Wallet, LogOut, User } from "lucide-react";
+import { Bell, MessageCircle, Wallet } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import {
@@ -20,7 +19,6 @@ interface LayoutProps {
 }
 
 const Layout = ({ children, showCategories = false }: LayoutProps) => {
-  const { user, signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -40,22 +38,6 @@ const Layout = ({ children, showCategories = false }: LayoutProps) => {
       title: "Wallet",
       description: "Your current balance is ₵24.50",
     });
-  };
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      toast({
-        title: "Signed out",
-        description: "You have been successfully signed out.",
-      });
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: "Failed to sign out. Please try again.",
-        variant: "destructive",
-      });
-    }
   };
 
   return (
@@ -93,22 +75,6 @@ const Layout = ({ children, showCategories = false }: LayoutProps) => {
                 <Wallet className="h-4 w-4" />
                 <span className="font-medium">₵24.50</span>
               </Button>
-              
-              {/* User Menu */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="flex items-center gap-2">
-                    <User className="h-4 w-4" />
-                    <span className="hidden md:inline text-sm">{user?.email}</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={handleSignOut}>
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Sign Out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </header>
 

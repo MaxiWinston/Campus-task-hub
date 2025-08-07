@@ -1,8 +1,22 @@
 import { useState, useRef, useEffect } from 'react';
 import { Bell, Check, X, AlertCircle, CheckCircle, AlertTriangle, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useNotifications, type Notification } from '@/contexts/NotificationContext';
+// The import for NotificationContext has been removed.
 import { formatDistanceToNow } from 'date-fns';
+
+// A local type definition for notifications is created to replace the imported type.
+interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  type: 'info' | 'success' | 'warning' | 'error';
+  timestamp: Date;
+  read: boolean;
+  action?: {
+    label: string;
+    onClick: () => void;
+  };
+}
 
 const getNotificationIcon = (type: Notification['type']) => {
   switch (type) {
@@ -20,13 +34,60 @@ const getNotificationIcon = (type: Notification['type']) => {
 export function NotificationBell() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const {
-    notifications,
-    unreadCount,
-    markAsRead,
-    markAllAsRead,
-    removeNotification,
-  } = useNotifications();
+
+  // Replaced the useNotifications hook with local state and mock data.
+  const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: '1',
+      title: 'New Task Posted',
+      message: 'A new academic help task has been posted.',
+      type: 'info',
+      timestamp: new Date(Date.now() - 1000 * 60 * 5), // 5 minutes ago
+      read: false,
+    },
+    {
+      id: '2',
+      title: 'Task Accepted',
+      message: 'Mike R. has accepted your food delivery task.',
+      type: 'success',
+      timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
+      read: false,
+    },
+    {
+      id: '3',
+      title: 'Task Reminder',
+      message: 'Your Chemistry lab report is due tomorrow.',
+      type: 'warning',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
+      read: true,
+    },
+    {
+      id: '4',
+      title: 'Payment Received',
+      message: 'You have received ₵25 for completing the lab report.',
+      type: 'success',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
+      read: true,
+    },
+  ]);
+
+  // The unread count is now a derived value from the local state.
+  const unreadCount = notifications.filter((n) => !n.read).length;
+
+  // Local functions to manage state, replacing the context functions.
+  const markAsRead = (id: string) => {
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+    );
+  };
+
+  const markAllAsRead = () => {
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+  };
+
+  const removeNotification = (id: string) => {
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -171,3 +232,4 @@ export function NotificationBell() {
     </div>
   );
 }
+export default NotificationBell;  

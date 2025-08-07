@@ -5,8 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/toaster';
 import { Toaster as Sonner } from '@/components/ui/sonner';
-import { AuthProvider } from '@/contexts/AuthContext';
-import { NotificationProvider } from '@/contexts/NotificationContext';
+// The AuthProvider and NotificationProvider imports have been removed.
 import App from './App';
 import './index.css';
 
@@ -23,15 +22,12 @@ createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <AuthProvider>
-          <NotificationProvider>
-            <TooltipProvider>
-              <App />
-              <Toaster />
-              <Sonner />
-            </TooltipProvider>
-          </NotificationProvider>
-        </AuthProvider>
+        {/* The AuthProvider and NotificationProvider wrappers have been removed. */}
+        <TooltipProvider>
+          <App />
+          <Toaster />
+          <Sonner />
+        </TooltipProvider>
       </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>

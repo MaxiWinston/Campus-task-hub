@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-import ProtectedRoute from '@/components/ProtectedRoute';
 import Layout from '@/components/Layout';
 import Index from '@/pages/Index';
 import Login from '@/pages/Login';
@@ -18,86 +17,16 @@ const App = () => (
     <Route path="/" element={<Index />} />
     <Route path="/login" element={<Login />} />
     <Route path="/signup" element={<Signup />} />
-    <Route
-      path="/dashboard"
-      element={
-        <ProtectedRoute>
-          <Layout>
-            <Dashboard />
-          </Layout>
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/tasks"
-      element={
-        <ProtectedRoute>
-          <Layout>
-            <TaskListing />
-          </Layout>
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/tasks/create"
-      element={
-        <ProtectedRoute>
-          <Layout>
-            <TaskCreation />
-          </Layout>
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/tasks/:id"
-      element={
-        <ProtectedRoute>
-          <Layout>
-            <TaskDetails />
-          </Layout>
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/chat"
-      element={
-        <ProtectedRoute>
-          <Layout>
-            <Chat />
-          </Layout>
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/profile"
-      element={
-        <ProtectedRoute>
-          <Layout>
-            <Profile />
-          </Layout>
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/profile/:id"
-      element={
-        <ProtectedRoute>
-          <Layout>
-            <Profile />
-          </Layout>
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/admin"
-      element={
-        <ProtectedRoute>
-          <Layout>
-            <AdminPanel />
-          </Layout>
-        </ProtectedRoute>
-      }
-    />
+
+    {/* Wrap each main route with the Layout component */}
+    <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+    <Route path="/tasks" element={<Layout><TaskListing /></Layout>} />
+    <Route path="/tasks/create" element={<Layout><TaskCreation /></Layout>} />
+    <Route path="/tasks/:id" element={<Layout><TaskDetails /></Layout>} />
+    <Route path="/chat" element={<Layout><Chat /></Layout>} />
+    <Route path="/profile" element={<Layout><Profile /></Layout>} />
+    <Route path="/profile/:id" element={<Layout><Profile /></Layout>} />
+    <Route path="/admin" element={<Layout><AdminPanel /></Layout>} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );

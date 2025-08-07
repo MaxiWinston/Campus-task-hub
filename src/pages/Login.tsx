@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { useAuth } from '@/contexts/AuthContext';
+// The useAuth import has been removed as it's no longer needed.
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 
@@ -12,30 +12,24 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { signIn } = useAuth();
-  const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      await signIn(email, password);
-      toast({
-        title: "Welcome back!",
-        description: "You have successfully signed in.",
-      });
-      navigate('/dashboard');
-    } catch (error: any) {
-      toast({
-        title: "Sign in failed",
-        description: error.message,
-        variant: "destructive",
-      });
-    } finally {
+    // Backend logic has been removed.
+    // Display a placeholder toast to show the button is "working".
+    toast({
+      title: "Feature Unavailable",
+      description: "Login functionality has been removed.",
+      variant: "destructive",
+    });
+
+    // Simulate a delay to show the loading spinner
+    setTimeout(() => {
       setIsLoading(false);
-    }
+    }, 1000);
   };
 
   return (
@@ -79,7 +73,7 @@ const Login = () => {
               disabled={isLoading}
             >
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              ₵ Sign In
+              Sign In
             </Button>
           </form>
           <div className="mt-6 text-center text-sm">

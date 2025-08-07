@@ -1,11 +1,10 @@
-
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { useAuth } from '@/contexts/AuthContext';
+// The useAuth import has been removed as it's no longer needed.
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 
@@ -16,11 +15,11 @@ const Signup = () => {
   const [fullName, setFullName] = useState('');
   const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { signUp } = useAuth();
-  const navigate = useNavigate();
+  // The useNavigate hook is no longer needed since we aren't redirecting
+  // const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (password !== confirmPassword) {
@@ -43,25 +42,18 @@ const Signup = () => {
 
     setIsLoading(true);
 
-    try {
-      await signUp(email, password, {
-        username: username.trim(),
-        full_name: fullName.trim()
-      });
-      toast({
-        title: "Account created!",
-        description: "Please check your email to verify your account.",
-      });
-      navigate('/login');
-    } catch (error: any) {
-      toast({
-        title: "Sign up failed",
-        description: error.message,
-        variant: "destructive",
-      });
-    } finally {
+    // Backend logic has been removed.
+    // Display a placeholder toast to show the button is "working"
+    toast({
+      title: "Feature Unavailable",
+      description: "Account creation functionality has been removed.",
+      variant: "destructive",
+    });
+
+    // Simulate a delay to show the loading spinner
+    setTimeout(() => {
       setIsLoading(false);
-    }
+    }, 1000);
   };
 
   return (

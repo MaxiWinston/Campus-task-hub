@@ -3,64 +3,21 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
+// The useAuth and supabase imports have been removed as they are no longer needed.
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Calendar, CheckCircle, Clock, AlertCircle, Star, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-interface Profile {
-  id: string;
-  email: string;
-  full_name: string | null;
-  avatar_url: string | null;
-  created_at: string;
-}
-
 const Dashboard = () => {
-  const { user } = useAuth();
+  // Removed the profile state and loading state as the data is now static
   const { toast } = useToast();
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      if (!user) return;
+  // Static user profile data to replace the backend fetch
+  const profile = {
+    full_name: 'Jane Doe',
+  };
 
-      try {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', user.id)
-          .single();
-
-        if (error) throw error;
-        setProfile(data);
-      } catch (error: any) {
-        toast({
-          title: "Error loading profile",
-          description: error.message,
-          variant: "destructive",
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, [user, toast]);
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading dashboard...</p>
-        </div>
-      </div>
-    );
-  }
-
+  // Mock data for the dashboard UI
   const activeTasks = [
     {
       id: 1,
